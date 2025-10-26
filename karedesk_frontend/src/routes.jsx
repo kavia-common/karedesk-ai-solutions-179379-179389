@@ -1,17 +1,11 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-
-/**
- * Placeholder pages for routing to be implemented later.
- */
-function Placeholder({ title }) {
-  return (
-    <div>
-      <h1 className="page-title">{title}</h1>
-      <p className="subtle">Contenido próximamente...</p>
-    </div>
-  );
-}
+import Dashboard from "./pages/Dashboard";
+import Users from "./pages/Users";
+import Projects from "./pages/Projects";
+import Support from "./pages/Support";
+import Reputation from "./pages/Reputation";
+import NotFound from "./pages/NotFound";
 
 // PUBLIC_INTERFACE
 export function buildRouter(AppShell) {
@@ -24,12 +18,13 @@ export function buildRouter(AppShell) {
       path: "/",
       element: <AppShell />,
       children: [
-        { index: true, element: <Placeholder title="Dashboard" /> },
-        { path: "consultoria", element: <Placeholder title="Consultoría IA" /> },
-        { path: "soporte", element: <Placeholder title="Soporte Técnico" /> },
-        { path: "reputacion", element: <Placeholder title="Reputación Digital" /> },
-        { path: "elevacion", element: <Placeholder title="Sector Elevación" /> },
-        { path: "ajustes", element: <Placeholder title="Ajustes" /> }
+        { index: true, element: <Dashboard /> },
+        { path: "usuarios", element: <Users /> },
+        { path: "proyectos", element: <Projects /> },
+        { path: "soporte", element: <Support /> },
+        { path: "reputacion", element: <Reputation /> },
+        // legacy/other placeholders can be added here as needed
+        { path: "*", element: <NotFound /> }
       ]
     }
   ]);

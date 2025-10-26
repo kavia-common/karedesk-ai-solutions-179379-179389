@@ -39,9 +39,13 @@ export default function Sidebar() {
           <span>🏠</span>
           <span>Dashboard</span>
         </NavLink>
-        <NavLink to="/consultoria" style={getLinkStyle}>
-          <span>🧠</span>
-          <span>Consultoría IA</span>
+        <NavLink to="/usuarios" style={getLinkStyle}>
+          <span>👥</span>
+          <span>Usuarios</span>
+        </NavLink>
+        <NavLink to="/proyectos" style={getLinkStyle}>
+          <span>📁</span>
+          <span>Proyectos</span>
         </NavLink>
         <NavLink to="/soporte" style={getLinkStyle}>
           <span>🛠️</span>
@@ -50,14 +54,6 @@ export default function Sidebar() {
         <NavLink to="/reputacion" style={getLinkStyle}>
           <span>⭐</span>
           <span>Reputación Digital</span>
-        </NavLink>
-        <NavLink to="/elevacion" style={getLinkStyle}>
-          <span>🏗️</span>
-          <span>Sector Elevación</span>
-        </NavLink>
-        <NavLink to="/ajustes" style={getLinkStyle}>
-          <span>⚙️</span>
-          <span>Ajustes</span>
         </NavLink>
       </nav>
       <div style={{ marginTop: "auto", fontSize: 12, color: "#6b7280" }}>
