@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
+import { getHealth } from "../services/api";
 
 /**
  * Dashboard page shows overview metrics and quick actions.
@@ -26,12 +27,72 @@ export default function Dashboard() {
   @media (max-width: 640px){ .tile{ grid-column: span 12; } }
   `;
 
+  // Lightweight backend health check
+  const [health, setHealth] = useState({ status: "checking", message: "" });
+  useEffect(() => {
+    let ignore = false;
+    (async () => {
+      try {
+        const data = await getHealth();
+        if (!ignore) {
+          setHealth({ status: "ok", message: data?.message || "Backend activo" });
+        }
+      } catch (e) {
+        if (!ignore) {
+          setHealth({ status: "error", message: e.message || "Backend no disponible" });
+        }
+      }
+    })();
+    return () => { ignore = true; };
+  }, []);
+
   return (
     <div>
       <style>{responsive}</style>
       <div className="main-toolbar">
         <h1 className="page-title">Dashboard</h1>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <div
+            title={health.message || ""}
+            aria-label={`Backend status: ${health.status}`}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 10px",
+              borderRadius: 9999,
+              fontSize: 12,
+              background:
+                health.status === "ok"
+                  ? "rgba(16,185,129,0.12)"
+                  : health.status === "checking"
+                  ? "rgba(37,99,235,0.10)"
+                  : "rgba(239,68,68,0.12)",
+              color:
+                health.status === "ok"
+                  ? "#065f46"
+                  : health.status === "checking"
+                  ? "var(--color-primary)"
+                  : "var(--color-error)",
+              border:
+                health.status === "ok"
+                  ? "1px solid rgba(16,185,129,0.35)"
+                  : health.status === "checking"
+                  ? "1px solid rgba(37,99,235,0.25)"
+                  : "1px solid rgba(239,68,68,0.25)"
+            }}
+          >
+            <span>
+              {health.status === "ok" ? "●" : health.status === "checking" ? "○" : "●"}
+            </span>
+            <span>
+              {health.status === "ok"
+                ? "Backend OK"
+                : health.status === "checking"
+                ? "Verificando backend..."
+                : "Backend no disponible"}
+            </span>
+          </div>
           <Button onClick={() => setOpen(true)}>Nueva Acción</Button>
           <Button variant="outline">Exportar</Button>
         </div>

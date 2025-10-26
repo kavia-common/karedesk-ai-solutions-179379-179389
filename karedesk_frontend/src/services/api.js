@@ -106,6 +106,18 @@ export async function createReputationRecord(payload) {
   return unwrap(res);
 }
 
+/**
+ * Health check endpoint to verify backend availability.
+ * Returns any payload provided by the backend or { ok: true } if reachable.
+ */
+// PUBLIC_INTERFACE
+export async function getHealth() {
+  /** Perform a simple GET request to root or /health to check server status */
+  // try root first as per provided openapi.json; adjust if /health becomes available
+  const res = await api.get("/");
+  return unwrap(res);
+}
+
 export default {
   getUsers,
   createUser,
@@ -116,4 +128,5 @@ export default {
   updateTicketStatus,
   getReputationSummary,
   createReputationRecord,
+  getHealth,
 };
